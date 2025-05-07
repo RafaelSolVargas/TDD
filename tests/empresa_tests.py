@@ -44,3 +44,8 @@ class EmpresasTest(unittest.TestCase):
         self.empresa.adicionar_funcionario_em_projeto(2, 1)
 
         self.assertEqual(len(self.empresa.pegar_projeto(1).funcionarios), 1)
+
+    def test_pegar_projeto_inexistente_retorna_none(self):
+        projeto = self.empresa.pegar_projeto(1)
+
+        self.assertIsNone(projeto)
