@@ -1,7 +1,7 @@
 import sys
 import os
-from unittest.mock import patch
 
+from src.Empresa import Empresa
 
 # Obtém o caminho absoluto do diretório do projeto
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
