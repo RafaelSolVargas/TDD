@@ -63,3 +63,26 @@ class EmpresasTest(unittest.TestCase):
         resultado = self.empresa.adicionar_funcionario_em_projeto(1, 2)
 
         self.assertEqual(resultado, 'Funcionario nao existe')
+
+    def test_inserir_dois_funcionarios_em_projeto(self): 
+        self.empresa.criar_projeto(1, 'Projeto X')
+        
+        self.empresa.criar_funcionario(1, 'Worker 1')
+        self.empresa.criar_funcionario(2, 'Worker 2')
+
+        self.empresa.adicionar_funcionario_em_projeto(1, 1)
+        self.empresa.adicionar_funcionario_em_projeto(2, 1)
+
+        self.assertEqual(len(self.empresa.pegar_projeto(1).funcionarios), 2)
+
+    def test_inserir_funcionario_em_dois_projetos_funciona(self):
+        self.empresa.criar_projeto(1, 'Projeto X')
+        self.empresa.criar_projeto(2, 'Projeto Y')
+        
+        self.empresa.criar_funcionario(1, 'Worker 1')
+
+        self.empresa.adicionar_funcionario_em_projeto(1, 1)
+        self.empresa.adicionar_funcionario_em_projeto(1, 2)
+
+        self.assertEqual(len(self.empresa.pegar_projeto(1).funcionarios), 1)
+        self.assertEqual(len(self.empresa.pegar_projeto(2).funcionarios), 1)
