@@ -36,3 +36,9 @@ class Empresa():
                 for projeto in self.__projetos:
                     if projeto.id == projetoId:
                         projeto.funcionarios.append(funcionario)
+                        return 'Sucesso'
+
+                return 'Projeto nao existe'    
+            
+        return 'Funcionario nao existe'
+                

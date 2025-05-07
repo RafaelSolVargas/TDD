@@ -56,3 +56,10 @@ class EmpresasTest(unittest.TestCase):
         resultado = self.empresa.adicionar_funcionario_em_projeto(1, 10)
 
         self.assertEqual(resultado, 'Projeto nao existe')
+
+    def test_adicionar_funcionario_inexistente_em_projeto_retorna_string_erro(self):
+        self.empresa.criar_projeto(2, 'Projeto X')
+
+        resultado = self.empresa.adicionar_funcionario_em_projeto(1, 2)
+
+        self.assertEqual(resultado, 'Funcionario nao existe')
