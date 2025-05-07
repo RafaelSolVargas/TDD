@@ -30,3 +30,8 @@ class EmpresasTest(unittest.TestCase):
         projeto = self.empresa.criar_projeto(2, 'Projeto X')
 
         self.assertEqual(projeto.id, 2)
+
+    def test_criar_funcionario_retorna_id(self):
+        funcionario = self.empresa.criar_funcionario(1, 'Worker')
+
+        self.assertEqual(funcionario.name, 'Worker')
