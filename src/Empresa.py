@@ -1,9 +1,11 @@
+from src.Funcionario import Funcionario
 from src.Projeto import Projeto 
 
 
 class Empresa():
     def __init__(self):
         self.__projetos = []
+        self.__funcionarios = []
 
     def projetos(self):
         return self.__projetos
@@ -14,3 +16,10 @@ class Empresa():
         self.__projetos.append(projeto)
 
         return projeto
+    
+    def criar_funcionario(self, id, name) -> Funcionario:
+        funcionario = Funcionario(id, name)
+
+        self.__funcionarios.append(funcionario)
+
+        return funcionario
