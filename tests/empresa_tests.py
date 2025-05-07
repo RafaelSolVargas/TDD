@@ -25,3 +25,8 @@ class EmpresasTest(unittest.TestCase):
         projeto = self.empresa.criar_projeto('Projeto X')
 
         self.assertEqual(projeto.name, 'Projeto X')
+
+    def test_criar_projeto_retorna_projeto_com_id(self):
+        projeto = self.empresa.criar_projeto(1, 'Projeto X')
+
+        self.assertEqual(projeto.id, 1)
