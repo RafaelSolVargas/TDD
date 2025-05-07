@@ -35,3 +35,12 @@ class EmpresasTest(unittest.TestCase):
         funcionario = self.empresa.criar_funcionario(1, 'Worker')
 
         self.assertEqual(funcionario.name, 'Worker')
+
+    def test_adicionar_funcionario_em_projeto_adiciona_com_sucesso(self):
+        self.empresa.criar_projeto(1, 'Projeto X')
+
+        self.empresa.criar_funcionario(2, 'Worker')
+
+        self.empresa.adicionar_funcionario_em_projeto(2, 1)
+
+        self.assertEqual(len(self.empresa.pegar_projeto(1).funcionarios), 1)
