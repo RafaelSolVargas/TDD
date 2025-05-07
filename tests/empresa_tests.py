@@ -13,9 +13,15 @@ sys.path.insert(0, os.path.join(project_root, "tests"))
 import unittest
 
 class EmpresasTest(unittest.TestCase):
+    def setUp(self):
+        self.empresa = Empresa()
+
     def test_criar_empresa_retorna_lista_projetos_vazia(self):
-        empresa = Empresa()
-        
-        projetos = empresa.projetos()
+        projetos = self.empresa.projetos()
 
         self.assertListEqual(projetos, [])
+
+    def test_criar_projeto_retorna_objeto_projeto_criado_com_nome(self):
+        projeto = self.empresa.criar_projeto('Projeto X')
+
+        self.assertEqual(projeto.name, 'Projeto X')
