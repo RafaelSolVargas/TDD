@@ -8,8 +8,8 @@ class Empresa():
     def projetos(self):
         return self.__projetos
     
-    def criar_projeto(self, name) -> Projeto:
-        projeto = Projeto(name)
+    def criar_projeto(self, id, name) -> Projeto:
+        projeto = Projeto(id, name)
         
         self.__projetos.append(projeto)
 

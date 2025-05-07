@@ -22,11 +22,11 @@ class EmpresasTest(unittest.TestCase):
         self.assertListEqual(projetos, [])
 
     def test_criar_projeto_retorna_objeto_projeto_criado_com_nome(self):
-        projeto = self.empresa.criar_projeto('Projeto X')
+        projeto = self.empresa.criar_projeto(1, 'Projeto X')
 
         self.assertEqual(projeto.name, 'Projeto X')
 
     def test_criar_projeto_retorna_projeto_com_id(self):
-        projeto = self.empresa.criar_projeto(1, 'Projeto X')
+        projeto = self.empresa.criar_projeto(2, 'Projeto X')
 
-        self.assertEqual(projeto.id, 1)
+        self.assertEqual(projeto.id, 2)
