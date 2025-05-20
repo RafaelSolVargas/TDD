@@ -143,3 +143,32 @@ class OcorrenciasTest(unittest.TestCase):
         result = projeto.modificar_responsavel(1, -1)
 
         self.assertEqual(result, 'Funcionario nao encontrado')
+
+    def test_modificar_resposavel_ocorrencia_inexistente_retorna_erro(self):
+        projeto = self.empresa.pegar_projeto(1)
+
+        projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = projeto.modificar_responsavel(-1, 1)
+
+        self.assertEqual(result, 'Ocorrencia nao encontrada')
+
+    def test_modificar_resposavel_ocorrencia_muitas_ocorrencias_retorna_erro(self):
+        projetoOne = self.empresa.pegar_projeto(1)
+        projetoTwo = self.empresa.pegar_projeto(2)
+ 
+        projetoOne.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoOne.criar_ocorrencia(2, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoOne.criar_ocorrencia(3, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoOne.criar_ocorrencia(4, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoOne.criar_ocorrencia(5, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        
+        projetoTwo.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoTwo.criar_ocorrencia(2, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoTwo.criar_ocorrencia(3, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoTwo.criar_ocorrencia(4, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoTwo.criar_ocorrencia(5, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+       
+        projetoTwo.criar_ocorrencia(6, 2, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = projetoTwo.modificar_responsavel(6, 1)
+
+        self.assertEqual(result, 'Funcionario novo esta com muitas ocorrencias')

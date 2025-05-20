@@ -51,12 +51,18 @@ class Projeto:
     def modificar_responsavel(self, ocorrenciaId: int, novoResponsavelId: int) -> str:
         ocorrencia = self.pegar_ocorrencia(ocorrenciaId)
 
+        if ocorrencia is None:
+            return 'Ocorrencia nao encontrada'
+
         funcionarioVelho = self.pegar_funcionario(ocorrencia.responsavelId)
         funcionarioNovo = self.pegar_funcionario(novoResponsavelId)
 
         if funcionarioNovo is None:
             return 'Funcionario nao encontrado'
-
+        
+        if funcionarioNovo.quantidade_ocorrencias_abertas() >= 10:
+            return 'Funcionario novo esta com muitas ocorrencias'
+        
         ocorrencia.responsavelId = novoResponsavelId
         funcionarioVelho.remover_ocorrencia(ocorrenciaId)
         funcionarioNovo.ocorrencias.append(ocorrencia)
