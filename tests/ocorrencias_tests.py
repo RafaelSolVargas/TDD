@@ -132,6 +132,24 @@ class OcorrenciasTest(unittest.TestCase):
 
         self.assertEqual(result, 'Ocorrencia ja fechada')
         self.assertEqual(funcionario.quantidade_ocorrencias_abertas(), 0)
+
+    def test_funcionario_eh_responsavel_ocorrencia_retorna_false(self):
+        projeto = self.empresa.pegar_projeto(1)
+        funcionario = projeto.pegar_funcionario(1)
+
+        projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = funcionario.eh_responsavel_ocorrencia(2)
+
+        self.assertEqual(result, False)
+
+    def test_funcionario_remover_ocorrencia_nao_possui_retorna_none(self):
+        projeto = self.empresa.pegar_projeto(1)
+        funcionario = projeto.pegar_funcionario(1)
+
+        projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = funcionario.remover_ocorrencia(2)
+
+        self.assertEqual(result, None)
     ##################################### FECHAR OCORRENCIA
 
     ##### MODIFICACAO FUNCIONARIO
@@ -183,3 +201,4 @@ class OcorrenciasTest(unittest.TestCase):
         result = projetoTwo.modificar_responsavel(6, 1)
 
         self.assertEqual(result, 'Funcionario novo esta com muitas ocorrencias')
+    ##################################### MODIFICACAO FUNCIONARIO
