@@ -19,16 +19,16 @@ class Projeto:
         if ocorrenciaMesmoId is not None:
             return 'Ocorrencia com esse ID ja existe'
 
-        funciarioProjeto = self.pegar_funcionario(responsavelId)
-        if funciarioProjeto is None:
+        funcionarioProjeto = self.pegar_funcionario(responsavelId)
+        if funcionarioProjeto is None:
             return 'Funcionario nao esta em projeto'
 
-        quantFuncionarioProjetos = funciarioProjeto.quantidade_ocorrencias_abertas()
+        quantFuncionarioProjetos = funcionarioProjeto.quantidade_ocorrencias_abertas()
         if quantFuncionarioProjetos >= 10:
             return 'Funcionario esta com muitas ocorrencias'
 
         self.ocorrencias.append(ocorrencia)
-        funciarioProjeto.ocorrencias.append(ocorrencia)
+        funcionarioProjeto.ocorrencias.append(ocorrencia)
 
         return 'Sucesso'
     
@@ -38,11 +38,11 @@ class Projeto:
         if ocorrencia is None:
             return 'Ocorrencia nao existe'
 
-        funciarioProjeto = self.pegar_funcionario(responsavelId)
-        if funciarioProjeto is None:
+        funcionarioProjeto = self.pegar_funcionario(responsavelId)
+        if funcionarioProjeto is None:
             return 'Funcionario nao esta em projeto'
         
-        if funciarioProjeto.eh_responsavel_ocorrencia(ocorrenciaId) == False:
+        if funcionarioProjeto.eh_responsavel_ocorrencia(ocorrenciaId) == False:
             return 'Funcionario nao eh responsavel por ocorrencia'
 
         ocorrencia.status = Status.Fechado
