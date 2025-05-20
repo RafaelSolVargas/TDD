@@ -125,9 +125,9 @@ class OcorrenciasTest(unittest.TestCase):
 
     ##### MODIFICACAO FUNCIONARIO
     def test_modificar_resposavel_retorna_sucesso(self):
-        projeto = self.empresa.pegar_projeto(1)
+        projeto = self.empresa.pegar_projeto(2)
         funcionarioOne = projeto.pegar_funcionario(1)
-        funcionarioTwo = projeto.pegar_funcionario(1)
+        funcionarioTwo = projeto.pegar_funcionario(2)
 
         projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
         result = projeto.modificar_responsavel(1, 2)
@@ -135,4 +135,11 @@ class OcorrenciasTest(unittest.TestCase):
         self.assertEqual(result, 'Sucesso')
         self.assertEqual(funcionarioOne.quantidade_ocorrencias_abertas(), 0)
         self.assertEqual(funcionarioTwo.quantidade_ocorrencias_abertas(), 1)
-        
+
+    def test_modificar_resposavel_inexistente_retorna_erro(self):
+        projeto = self.empresa.pegar_projeto(1)
+
+        projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = projeto.modificar_responsavel(1, -1)
+
+        self.assertEqual(result, 'Funcionario nao encontrado')

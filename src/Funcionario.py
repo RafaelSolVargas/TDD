@@ -16,6 +16,12 @@ class Funcionario:
 
         return count
     
+    def remover_ocorrencia(self, ocorrenciaId) -> None:
+        for ocorrencia in self.ocorrencias:
+            if ocorrencia.id == ocorrenciaId:
+                self.ocorrencias.remove(ocorrencia)
+                break
+            
     def eh_responsavel_ocorrencia(self, ocorrenciaId) -> bool:
         for ocorrencia in self.ocorrencias:
             if ocorrencia.id == ocorrenciaId:

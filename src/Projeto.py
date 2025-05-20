@@ -47,6 +47,21 @@ class Projeto:
 
         ocorrencia.status = Status.Fechado
         return 'Sucesso'
+    
+    def modificar_responsavel(self, ocorrenciaId: int, novoResponsavelId: int) -> str:
+        ocorrencia = self.pegar_ocorrencia(ocorrenciaId)
+
+        funcionarioVelho = self.pegar_funcionario(ocorrencia.responsavelId)
+        funcionarioNovo = self.pegar_funcionario(novoResponsavelId)
+
+        if funcionarioNovo is None:
+            return 'Funcionario nao encontrado'
+
+        ocorrencia.responsavelId = novoResponsavelId
+        funcionarioVelho.remover_ocorrencia(ocorrenciaId)
+        funcionarioNovo.ocorrencias.append(ocorrencia)
+
+        return 'Sucesso'
 
     def pegar_funcionario(self, id) -> Funcionario:
         for funcionario in self.funcionarios:
