@@ -49,6 +49,25 @@ class OcorrenciasTest(unittest.TestCase):
 
         self.assertEqual(result, 'Funcionario nao esta em projeto')
 
+    def test_criar_ocorrencia_funcionario_da_erro_muitas_ocorrencia_diferente_projeto(self):
+        projetoOne = self.empresa.pegar_projeto(1)
+        projetoTwo = self.empresa.pegar_projeto(2)
+ 
+        projetoOne.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoOne.criar_ocorrencia(2, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoOne.criar_ocorrencia(3, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoOne.criar_ocorrencia(4, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoOne.criar_ocorrencia(5, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        
+        projetoTwo.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoTwo.criar_ocorrencia(2, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoTwo.criar_ocorrencia(3, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoTwo.criar_ocorrencia(4, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        projetoTwo.criar_ocorrencia(5, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = projetoTwo.criar_ocorrencia(6, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+
+        self.assertEqual(result, 'Funcionario esta com muitas ocorrencias')
+
     def test_criar_ocorrencia_funcionario_da_erro_muitas_ocorrencia(self):
         projeto = self.empresa.pegar_projeto(1)
 
