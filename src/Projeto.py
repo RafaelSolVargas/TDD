@@ -11,19 +11,49 @@ class Projeto:
         self.funcionarios: List[Funcionario] = []
         self.ocorrencias: List[Ocorrencia] = []
 
-    def criar_ocorrencia(self, id: int, responsavelId: int, resumo: str, status: Status, tipo: Tipo, prioridade: Prioridade) -> bool:
+    def criar_ocorrencia(self, id: int, responsavelId: int, resumo: str, status: Status, tipo: Tipo, prioridade: Prioridade) -> str:
         ocorrencia = Ocorrencia(id, responsavelId, resumo, status, tipo, prioridade)
         
         ocorrenciaMesmoId = self.pegar_ocorrencia(id)
 
         if ocorrenciaMesmoId is not None:
-            return False
+            return 'Ocorrencia com esse ID ja existe'
+
+        funciarioProjeto = self.pegar_funcionario(responsavelId)
+        if funciarioProjeto is None:
+            return 'Funcionario nao esta em projeto'
+
+        quantFuncionarioProjetos = funciarioProjeto.quantidade_ocorrencias_abertas()
+        if quantFuncionarioProjetos >= 10:
+            return 'Funcionario esta com muitas ocorrencias'
 
         self.ocorrencias.append(ocorrencia)
+        funciarioProjeto.ocorrencias.append(ocorrencia)
 
-        return True
+        return 'Sucesso'
+    
+    def fechar_ocorrencia(self, ocorrenciaId: int, responsavelId: int) -> str:
+        ocorrencia = self.pegar_ocorrencia(ocorrenciaId)
 
-    def pegar_ocorrencia(self, id):
+        if ocorrencia is None:
+            return 'Ocorrencia nao existe'
+
+        funciarioProjeto = self.pegar_funcionario(responsavelId)
+        if funciarioProjeto is None:
+            return 'Funcionario nao esta em projeto'
+        
+        if funciarioProjeto.eh_responsavel_ocorrencia(ocorrenciaId) == False:
+            return 'Funcionario nao eh responsavel por ocorrencia'
+
+        ocorrencia.status = Status.Fechado
+        return 'Sucesso'
+
+    def pegar_funcionario(self, id) -> Funcionario:
+        for funcionario in self.funcionarios:
+            if funcionario.id == id:
+                return funcionario
+            
+    def pegar_ocorrencia(self, id) -> Ocorrencia:
         for ocorrencia in self.ocorrencias:
             if ocorrencia.id == id:
                 return ocorrencia

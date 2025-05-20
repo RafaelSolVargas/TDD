@@ -24,12 +24,13 @@ class OcorrenciasTest(unittest.TestCase):
         self.empresa.adicionar_funcionario_em_projeto(1, 2)
         self.empresa.adicionar_funcionario_em_projeto(2, 2)
 
+    ### CRIACAO DE OCORRENCIA
     def test_criar_ocorrencia_sucesso(self):
         projeto = self.empresa.pegar_projeto(1)
 
         result = projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
 
-        self.assertEqual(result, True)
+        self.assertEqual(result, 'Sucesso')
         self.assertEqual(len(projeto.ocorrencias), 1)
 
     def test_criar_ocorrencia_mesmo_id_da_erro(self):
@@ -38,5 +39,67 @@ class OcorrenciasTest(unittest.TestCase):
         resultOne = projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
         resultTwo = projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
         
-        self.assertEqual(resultOne, True)
-        self.assertEqual(resultTwo, False)
+        self.assertEqual(resultOne, 'Sucesso')
+        self.assertEqual(resultTwo, 'Ocorrencia com esse ID ja existe')
+
+    def test_criar_ocorrencia_funcionario_fora_projeto_da_erro(self):
+        projeto = self.empresa.pegar_projeto(1)
+
+        result = projeto.criar_ocorrencia(2, 2, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+
+        self.assertEqual(result, 'Funcionario nao esta em projeto')
+
+    def test_criar_ocorrencia_funcionario_da_erro_muitas_ocorrencia(self):
+        projeto = self.empresa.pegar_projeto(1)
+
+        result = ''
+        for x in range(11): 
+            result = projeto.criar_ocorrencia(x, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+
+        self.assertEqual(result, 'Funcionario esta com muitas ocorrencias')
+
+    def test_criar_ocorrencia_funcionario_atualiza_quantidade_ocorrencias(self):
+        projeto = self.empresa.pegar_projeto(1)
+        funcionario = projeto.pegar_funcionario(1)
+
+        result = projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+
+        self.assertEqual(result, 'Sucesso')
+        self.assertEqual(funcionario.quantidade_ocorrencias_abertas(), 1)
+    ##################################### CRIACAO DE OCORRENCIA
+
+    ##### FECHAR OCORRENCIA
+    def test_funcionario_fechar_ocorrencia_retorna_ok_atualiza_status(self):
+        projeto = self.empresa.pegar_projeto(1)
+        funcionario = projeto.pegar_funcionario(1)
+
+        projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = projeto.fechar_ocorrencia(1, 1)
+
+        self.assertEqual(result, 'Sucesso')
+        self.assertEqual(funcionario.quantidade_ocorrencias_abertas(), 0)
+
+    def test_funcionario_fechar_ocorrencia_inexistente_gera_erro(self):
+        projeto = self.empresa.pegar_projeto(1)
+
+        projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = projeto.fechar_ocorrencia(-1, 1)
+
+        self.assertEqual(result, 'Ocorrencia nao existe')
+
+    def test_funcionario_inexistente_fechar_ocorrencia_gera_erro(self):
+        projeto = self.empresa.pegar_projeto(1)
+
+        projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = projeto.fechar_ocorrencia(1, -1)
+
+        self.assertEqual(result, 'Funcionario nao esta em projeto')
+
+    def test_funcionario_fechar_ocorrencia_nao_dele_gera_erro(self):
+        projeto = self.empresa.pegar_projeto(2)
+
+        projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = projeto.fechar_ocorrencia(1, 2)
+
+        self.assertEqual(result, 'Funcionario nao eh responsavel por ocorrencia')
+    ##################################### FECHAR OCORRENCIA
