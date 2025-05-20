@@ -27,6 +27,16 @@ class OcorrenciasTest(unittest.TestCase):
     def test_criar_ocorrencia_sucesso(self):
         projeto = self.empresa.pegar_projeto(1)
 
-        projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
 
+        self.assertEqual(result, True)
         self.assertEqual(len(projeto.ocorrencias), 1)
+
+    def test_criar_ocorrencia_mesmo_id_da_erro(self):
+        projeto = self.empresa.pegar_projeto(1)
+
+        resultOne = projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        resultTwo = projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        
+        self.assertEqual(resultOne, True)
+        self.assertEqual(resultTwo, False)
