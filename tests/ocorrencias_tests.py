@@ -122,3 +122,17 @@ class OcorrenciasTest(unittest.TestCase):
 
         self.assertEqual(result, 'Funcionario nao eh responsavel por ocorrencia')
     ##################################### FECHAR OCORRENCIA
+
+    ##### MODIFICACAO FUNCIONARIO
+    def test_modificar_resposavel_retorna_sucesso(self):
+        projeto = self.empresa.pegar_projeto(1)
+        funcionarioOne = projeto.pegar_funcionario(1)
+        funcionarioTwo = projeto.pegar_funcionario(1)
+
+        projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = projeto.modificar_responsavel(1, 2)
+
+        self.assertEqual(result, 'Sucesso')
+        self.assertEqual(funcionarioOne.quantidade_ocorrencias_abertas(), 0)
+        self.assertEqual(funcionarioTwo.quantidade_ocorrencias_abertas(), 1)
+        
