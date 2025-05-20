@@ -121,6 +121,17 @@ class OcorrenciasTest(unittest.TestCase):
         result = projeto.fechar_ocorrencia(1, 2)
 
         self.assertEqual(result, 'Funcionario nao eh responsavel por ocorrencia')
+
+    def test_funcionario_fechar_ocorrencia_fechada_gera_erro(self):
+        projeto = self.empresa.pegar_projeto(1)
+        funcionario = projeto.pegar_funcionario(1)
+
+        projeto.criar_ocorrencia(1, 1, 'Resumo', Status.Aberto, Tipo.Tarefa, Prioridade.Alta)
+        result = projeto.fechar_ocorrencia(1, 1)
+        result = projeto.fechar_ocorrencia(1, 1)
+
+        self.assertEqual(result, 'Ocorrencia ja fechada')
+        self.assertEqual(funcionario.quantidade_ocorrencias_abertas(), 0)
     ##################################### FECHAR OCORRENCIA
 
     ##### MODIFICACAO FUNCIONARIO

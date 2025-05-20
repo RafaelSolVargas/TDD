@@ -38,6 +38,9 @@ class Projeto:
         if ocorrencia is None:
             return 'Ocorrencia nao existe'
 
+        if ocorrencia.status is Status.Fechado:
+            return 'Ocorrencia ja fechada'
+
         funcionarioProjeto = self.pegar_funcionario(responsavelId)
         if funcionarioProjeto is None:
             return 'Funcionario nao esta em projeto'
